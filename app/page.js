@@ -22,10 +22,6 @@ export default function Home() {
           Resell Store
         </p>
 
-        <p className="mt-8 text-white/70 text-sm md:text-base">
-          Piattaforma premium di e-commerce e gestione aziendale.
-        </p>
-
         {!session ? (
           <button
             onClick={() => signIn("google")}
