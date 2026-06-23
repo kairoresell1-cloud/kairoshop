@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  background: #0f0f0f;
+  color: #ffffff;
+  font-family: "Raleway", sans-serif;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 183, 197, 0.15);
+  backdrop-filter: blur(16px);
+  border-radius: 1.25rem;
+}
+
+.glow-text {
+  text-shadow: 0 0 24px rgba(255, 183, 197, 0.5);
+}
+
+.sakura-border {
+  border: 1px solid rgba(255, 183, 197, 0.25);
+}
+
+/* Petali sakura discreti in background */
+.petal {
+  position: fixed;
+  top: -5%;
+  pointer-events: none;
+  opacity: 0.25;
+  z-index: 0;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0%   { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
+}
+
+::selection {
+  background: rgba(255, 183, 197, 0.3);
+}
