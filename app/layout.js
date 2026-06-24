@@ -1,6 +1,7 @@
 import "./globals.css";
 import SakuraPetals from "@/components/SakuraPetals";
 import Providers from "@/components/Providers";
+import AppShell from "@/components/AppShell";
 
 export const metadata = {
   title: "Kairo Shop",
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
       <body className="relative min-h-screen bg-kairo-black">
         <SakuraPetals />
         <Providers>
-          <div className="relative z-10">{children}</div>
+          <div className="relative z-10">
+            <AppShell>{children}</AppShell>
+          </div>
         </Providers>
       </body>
     </html>
