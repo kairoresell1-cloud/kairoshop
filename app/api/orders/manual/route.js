@@ -97,6 +97,28 @@ export async function POST(req) {
     }).catch(() => {});
   }
 
+  // Scarica il magazzino: stock totale del prodotto, e stock della
+  // variante specifica se l'articolo aveva un colore selezionato.
+  // Non va mai sotto zero.
+  for (const item of items) {
+    const product = await prisma.product.findUnique({
+      where: { id: item.productId },
+      include: { variants: true },
+    });
+    if (!product) continue;
+
+    const newStock = Math.max(0, product.stock - item.quantity);
+    await prisma.product.update({ where: { id: item.productId }, data: { stock: newStock } });
+
+    if (item.variantName) {
+      const variant = product.variants.find((v) => v.colorName === item.variantName);
+      if (variant) {
+        const newVariantStock = Math.max(0, variant.stock - item.quantity);
+        await prisma.productVariant.update({ where: { id: variant.id }, data: { stock: newVariantStock } });
+      }
+    }
+  }
+
   await prisma.auditLog.create({
     data: { action: "ORDER_CREATE_MANUAL", entity: "Order", after: order, userId: session.user.id },
   });

@@ -14,10 +14,15 @@ export async function GET(_req, { params }) {
 
   const orderCode = await prisma.orderCode.findUnique({
     where: { code: cleanCode },
-    include: { user: true },
   });
 
   if (!orderCode) return NextResponse.json({ error: "Codice non trovato" }, { status: 404 });
+
+  // OrderCode non ha una relazione diretta a User (solo userId testuale),
+  // quindi il cliente collegato va recuperato a parte, se presente.
+  const user = orderCode.userId
+    ? await prisma.user.findUnique({ where: { id: orderCode.userId } })
+    : null;
 
   // Arricchisce gli item (salvati come JSON) con i dati prodotto correnti
   const productIds = orderCode.items.map((i) => i.productId);
@@ -27,5 +32,5 @@ export async function GET(_req, { params }) {
     product: products.find((p) => p.id === i.productId),
   }));
 
-  return NextResponse.json({ ...orderCode, items: itemsWithProduct });
+  return NextResponse.json({ ...orderCode, items: itemsWithProduct, user });
 }
