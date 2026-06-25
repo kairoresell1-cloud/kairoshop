@@ -10,12 +10,20 @@ export async function GET(_req, { params }) {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
   }
 
-  const order = await prisma.order.findUnique({
+  const orderCode = await prisma.orderCode.findUnique({
     where: { code: params.code },
-    include: { items: { include: { product: true } }, user: true },
+    include: { user: true },
   });
 
-  if (!order) return NextResponse.json({ error: "Codice ordine non trovato" }, { status: 404 });
+  if (!orderCode) return NextResponse.json({ error: "Codice non trovato" }, { status: 404 });
 
-  return NextResponse.json(order);
+  // Arricchisce gli item (salvati come JSON) con i dati prodotto correnti
+  const productIds = orderCode.items.map((i) => i.productId);
+  const products = await prisma.product.findMany({ where: { id: { in: productIds } } });
+  const itemsWithProduct = orderCode.items.map((i) => ({
+    ...i,
+    product: products.find((p) => p.id === i.productId),
+  }));
+
+  return NextResponse.json({ ...orderCode, items: itemsWithProduct });
 }

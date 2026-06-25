@@ -2,7 +2,8 @@
 
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart-context";
 
 const STAFF_ROLES = ["ADMIN", "OWNER", "SUPER_OWNER"];
@@ -10,9 +11,17 @@ const STAFF_ROLES = ["ADMIN", "OWNER", "SUPER_OWNER"];
 export default function Sidebar() {
   const { data: session } = useSession();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { items } = useCart();
+  const [categories, setCategories] = useState([]);
+  const [catalogOpen, setCatalogOpen] = useState(true);
   const isStaff = STAFF_ROLES.includes(session?.user?.role);
   const cartCount = items?.reduce((s, i) => s + i.quantity, 0) || 0;
+  const activeCategory = searchParams.get("category");
+
+  useEffect(() => {
+    fetch("/api/categories").then((r) => r.json()).then(setCategories);
+  }, []);
 
   const isActive = (href) =>
     pathname === href || (href !== "/shop" && pathname.startsWith(href));
@@ -29,13 +38,43 @@ export default function Sidebar() {
       </div>
 
       <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
-        <NavLink href="/shop" label="Shop" active={isActive("/shop")} />
-        <NavLink
-          href="/cart"
-          label="Carrello"
-          active={isActive("/cart")}
-          badge={cartCount > 0 ? cartCount : null}
-        />
+        <button
+          onClick={() => setCatalogOpen(!catalogOpen)}
+          className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-all duration-200 ${
+            pathname === "/shop" ? "text-kairo-sakura" : "text-white/50 hover:text-white/90 hover:bg-white/5"
+          }`}
+        >
+          <span>Catalogo</span>
+          <span className={`text-xs transition-transform ${catalogOpen ? "rotate-90" : ""}`}>›</span>
+        </button>
+
+        {catalogOpen && (
+          <div className="pl-3 space-y-0.5">
+            <Link
+              href="/shop"
+              className={`block px-3 py-2 rounded-lg text-xs transition-all ${
+                pathname === "/shop" && !activeCategory
+                  ? "bg-kairo-sakura/15 text-kairo-sakura"
+                  : "text-white/40 hover:text-white/80 hover:bg-white/5"
+              }`}
+            >
+              Tutti i prodotti
+            </Link>
+            {categories.map((c) => (
+              <Link
+                key={c.id}
+                href={`/shop?category=${c.slug}`}
+                className={`block px-3 py-2 rounded-lg text-xs transition-all ${
+                  activeCategory === c.slug
+                    ? "bg-kairo-sakura/15 text-kairo-sakura"
+                    : "text-white/40 hover:text-white/80 hover:bg-white/5"
+                }`}
+              >
+                {c.name}
+              </Link>
+            ))}
+          </div>
+        )}
 
         {isStaff && (
           <>

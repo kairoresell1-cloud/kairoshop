@@ -2,37 +2,32 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { hasPermission } from "@/lib/permissions";
 import { nanoid } from "nanoid";
-import { hasPermission, isStaff } from "@/lib/permissions";
 
 function generateOrderCode() {
   const part = () => nanoid(4).toUpperCase().replace(/[^A-Z0-9]/g, "X");
   return `KS-${part()}-${part()}`;
 }
 
-// GET: lista ordini (solo staff). POST pubblico già esistente la lasciamo
-// per il checkout; qui gestiamo anche la creazione manuale da admin.
+// GET: lista ordini REALI (solo staff) — usata dalla pagina "Visualizza Ordini"
 export async function GET() {
   const session = await getServerSession(authOptions);
-  if (!isStaff(session?.user)) {
+  if (!hasPermission(session?.user, "ORDERS_VIEW")) {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
   }
   const orders = await prisma.order.findMany({
-    include: { items: { include: { product: true } }, user: true },
+    include: { user: { select: { name: true, email: true } }, items: { include: { product: true } } },
     orderBy: { createdAt: "desc" },
   });
   return NextResponse.json(orders);
 }
 
+// POST: il cliente genera solo un CODICE (OrderCode). NON crea un ordine
+// reale — quello lo crea solo l'Owner, dopo aver ricevuto il codice.
 export async function POST(req) {
   const session = await getServerSession(authOptions);
   const body = await req.json();
-
-  // Ordine manuale creato da Admin/Owner (ha customerName, customerStreet ecc.)
-  const isManual = !!body.manual;
-  if (isManual && !hasPermission(session?.user, "ORDERS_EDIT")) {
-    return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
-  }
 
   const { items, shippingFee } = body;
   if (!items || items.length === 0) {
@@ -46,40 +41,19 @@ export async function POST(req) {
   let exists = true;
   while (exists) {
     code = generateOrderCode();
-    exists = await prisma.order.findUnique({ where: { code } });
+    exists = await prisma.orderCode.findUnique({ where: { code } });
   }
 
-  const order = await prisma.order.create({
+  const orderCode = await prisma.orderCode.create({
     data: {
       code,
-      userId: body.userId || session?.user?.id || null,
+      userId: session?.user?.id || null,
       subtotal,
       shippingFee: shippingFee ?? 7,
       total,
-      customerName: body.customerName || null,
-      customerStreet: body.customerStreet || null,
-      customerCity: body.customerCity || null,
-      customerZip: body.customerZip || null,
-      customerPhone: body.customerPhone || null,
-      items: {
-        create: items.map((i) => ({
-          productId: i.productId,
-          variantName: i.variantName || null,
-          quantity: i.quantity,
-          unitPrice: i.unitPrice,
-        })),
-      },
+      items,
     },
   });
 
-  await prisma.auditLog.create({
-    data: {
-      action: isManual ? "ORDER_CREATE_MANUAL" : "ORDER_CREATE",
-      entity: "Order",
-      after: order,
-      userId: session?.user?.id || null,
-    },
-  });
-
-  return NextResponse.json({ code: order.code, total: order.total, id: order.id });
+  return NextResponse.json({ code: orderCode.code, total: orderCode.total });
 }

@@ -37,6 +37,7 @@ model User {
   ordersCount   Int       @default(0)
   customerLevel String    @default("Nuovo") // Nuovo, Attivo, VIP, Inattivo, Top
   adminNotes    String?
+  banned        Boolean   @default(false)
   createdAt     DateTime  @default(now())
   orders        Order[]
   wishlist      WishlistItem[]
@@ -144,6 +145,21 @@ model StockReservation {
   createdAt    DateTime @default(now())
 }
 
+// Il codice che il cliente genera al checkout. NON è un ordine reale —
+// è solo un "pacchetto" che il cliente invia privatamente. Diventa un
+// vero Order solo quando l'Owner lo converte manualmente.
+model OrderCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  userId      String?
+  items       Json
+  subtotal    Float
+  shippingFee Float
+  total       Float
+  converted   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
 model Order {
   id            String      @id @default(cuid())
   code          String      @unique // formato KS-XXXX-XXXX
@@ -155,7 +171,9 @@ model Order {
   total         Float
   status        OrderStatus @default(DA_PREPARARE)
   customerName  String?
+  customerSurname String?
   customerStreet String?
+  customerStreetNumber String?
   customerCity  String?
   customerZip   String?
   customerPhone String?
