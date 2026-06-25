@@ -55,18 +55,26 @@ export default function OrdersAdminPage() {
       ) : (
         <div className="space-y-2">
           {filtered.map((o) => (
-            <Link key={o.id} href={`/admin/orders/${o.id}`} className="glass p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-white/5 transition-all block">
-              <div>
+            <div key={o.id} className="glass p-4 flex flex-wrap items-center justify-between gap-3 hover:bg-white/5 transition-all">
+              <Link href={`/admin/orders/${o.id}`} className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-kairo-sakura">{o.code}</p>
                 <p className="text-xs text-white/40">
-                  {[o.customerName, o.customerSurname].filter(Boolean).join(" ") || o.user?.name || "Cliente non specificato"}
-                  {" · "}€{o.total.toFixed(2)} · {new Date(o.createdAt).toLocaleDateString("it-IT")}
+                  €{o.total.toFixed(2)} · {new Date(o.createdAt).toLocaleDateString("it-IT")}
                 </p>
-              </div>
-              <span className="text-xs px-3 py-1.5 rounded-full bg-white/10 text-white/70">
+              </Link>
+              {o.userId ? (
+                <Link href={`/admin/customers/${o.userId}`} className="text-xs text-white/60 hover:text-kairo-sakura hover:underline">
+                  {o.user?.name || o.user?.email}
+                </Link>
+              ) : (
+                <span className="text-xs text-white/30">
+                  {[o.customerName, o.customerSurname].filter(Boolean).join(" ") || "Cliente non registrato"}
+                </span>
+              )}
+              <Link href={`/admin/orders/${o.id}`} className="text-xs px-3 py-1.5 rounded-full bg-white/10 text-white/70">
                 {STATUS_LABELS[o.status]}
-              </span>
-            </Link>
+              </Link>
+            </div>
           ))}
         </div>
       )}

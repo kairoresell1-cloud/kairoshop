@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AdminPageShell from "@/components/AdminPageShell";
-import CustomerPicker from "@/components/CustomerPicker";
 
 export default function CreateOrderPage() {
   const router = useRouter();
@@ -27,6 +26,24 @@ export default function CreateOrderPage() {
   useEffect(() => {
     fetch("/api/products").then((r) => r.json()).then(setProducts);
   }, []);
+
+  // Recupera la bozza dell'ordine se si torna dalla pagina "Seleziona cliente"
+  useEffect(() => {
+    const draftRaw = sessionStorage.getItem("kairo_order_draft");
+    if (draftRaw) {
+      const draft = JSON.parse(draftRaw);
+      if (draft.customer) setCustomer((c) => ({ ...c, ...draft.customer }));
+      if (draft.items) setItems(draft.items);
+      if (draft.mode) setMode(draft.mode);
+      if (draft.sourceCode) setSourceCode(draft.sourceCode);
+      sessionStorage.removeItem("kairo_order_draft");
+    }
+  }, []);
+
+  function goToSelectCustomer() {
+    sessionStorage.setItem("kairo_order_draft", JSON.stringify({ customer, items, mode, sourceCode }));
+    router.push("/admin/orders/create/select-customer");
+  }
 
   const subtotal = items.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
 
@@ -154,10 +171,17 @@ export default function CreateOrderPage() {
         <div className="glass p-5 space-y-3">
           <h3 className="text-sm font-medium mb-2">Destinatario</h3>
           <p className="text-[10px] text-white/40 mb-1">Cliente (opzionale, per collegare il profilo)</p>
-          <CustomerPicker
-            value={customer.userEmail}
-            onChange={(email) => setCustomer({ ...customer, userEmail: email })}
-          />
+          <div className="flex gap-2">
+            <input
+              placeholder="Email cliente — oppure seleziona dalla lista"
+              value={customer.userEmail}
+              onChange={(e) => setCustomer({ ...customer, userEmail: e.target.value })}
+              className="input text-xs flex-1"
+            />
+            <button type="button" onClick={goToSelectCustomer} className="text-xs bg-white/10 hover:bg-white/20 px-4 rounded-xl flex-shrink-0">
+              Seleziona
+            </button>
+          </div>
           <div className="grid grid-cols-2 gap-2">
             <input placeholder="Nome" value={customer.customerName} onChange={(e) => setCustomer({ ...customer, customerName: e.target.value })} className="input text-xs" />
             <input placeholder="Cognome" value={customer.customerSurname} onChange={(e) => setCustomer({ ...customer, customerSurname: e.target.value })} className="input text-xs" />

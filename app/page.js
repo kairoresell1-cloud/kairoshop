@@ -24,17 +24,39 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+    <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 35%, rgba(255,183,197,0.10), transparent 60%)",
+        }}
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="glass shadow-glow p-10 md:p-16 max-w-md w-full"
+        className="glass shadow-glow p-10 md:p-16 max-w-md w-full relative z-10"
       >
-        <p className="text-[10px] text-white/30 uppercase tracking-[0.4em] mb-3">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="flex justify-center mb-2"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/logo.png"
+            alt="Kairo Shop"
+            className="w-28 h-28 object-contain drop-shadow-[0_0_25px_rgba(255,183,197,0.45)]"
+          />
+        </motion.div>
+
+        <p className="text-[10px] text-white/30 uppercase tracking-[0.4em] mb-1">
           Premium Resell Platform
         </p>
-        <h1 className="text-5xl md:text-6xl font-light tracking-tight glow-text">
+        <h1 className="text-4xl md:text-5xl font-light tracking-tight glow-text">
           KAIRO
         </h1>
         <p className="mt-1 text-kairo-sakura uppercase tracking-[0.35em] text-[11px]">
@@ -57,7 +79,7 @@ export default function Home() {
         </button>
       </motion.div>
 
-      <p className="mt-8 text-white/20 text-[10px] tracking-widest uppercase">
+      <p className="mt-8 text-white/20 text-[10px] tracking-widest uppercase relative z-10">
         Kairo Shop © 2026
       </p>
     </main>

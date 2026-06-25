@@ -29,11 +29,15 @@ export default function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 h-screen w-60 glass border-r border-kairo-sakura/10 flex flex-col z-20 hidden md:flex">
       <div className="px-6 py-7">
-        <Link href="/shop" className="block">
-          <h1 className="text-xl font-light tracking-tight">KAIRO</h1>
-          <p className="text-[9px] text-kairo-sakura uppercase tracking-[0.3em] mt-0.5">
-            Shop
-          </p>
+        <Link href="/shop" className="flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/logo.png" alt="Kairo" className="w-9 h-9 object-contain drop-shadow-[0_0_8px_rgba(255,183,197,0.5)]" />
+          <div>
+            <h1 className="text-xl font-light tracking-tight">KAIRO</h1>
+            <p className="text-[9px] text-kairo-sakura uppercase tracking-[0.3em] mt-0.5">
+              Shop
+            </p>
+          </div>
         </Link>
       </div>
 

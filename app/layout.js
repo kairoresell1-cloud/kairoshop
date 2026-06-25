@@ -7,6 +7,10 @@ export const metadata = {
   title: "Kairo Shop",
   description: "Kairo Shop — Resell Store premium",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({ children }) {

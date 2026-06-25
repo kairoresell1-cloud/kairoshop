@@ -6,6 +6,13 @@
 
 html, body {
   background: #0f0f0f;
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(255, 183, 197, 0.06), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 183, 197, 0.05), transparent 45%),
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: auto, auto, 48px 48px, 48px 48px;
+  background-attachment: fixed;
   color: #ffffff;
   font-family: "Raleway", sans-serif;
 }
@@ -15,6 +22,7 @@ html, body {
   border: 1px solid rgba(255, 183, 197, 0.15);
   backdrop-filter: blur(16px);
   border-radius: 1.25rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .glow-text {

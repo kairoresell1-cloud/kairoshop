@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import AdminPageShell from "@/components/AdminPageShell";
 
 const STATUSES = ["DA_PREPARARE", "PREPARATO", "SPEDITO", "CONSEGNATO"];
@@ -73,7 +74,11 @@ export default function OrderDetailPage() {
 
   return (
     <AdminPageShell title={order.code} description={`Ordine creato il ${new Date(order.createdAt).toLocaleDateString("it-IT")}`}>
-      <div className="grid md:grid-cols-2 gap-6">
+      {order.userId && order.user && (
+        <Link href={`/admin/customers/${order.userId}`} className="inline-block text-xs text-kairo-sakura hover:underline mb-6">
+          👤 {order.user.name || order.user.email} — vai al dossier cliente
+        </Link>
+      )}      <div className="grid md:grid-cols-2 gap-6">
         <div className="glass p-5">
           <h3 className="text-sm font-medium mb-4">Prodotti ordinati</h3>
           <div className="space-y-2 text-xs">
