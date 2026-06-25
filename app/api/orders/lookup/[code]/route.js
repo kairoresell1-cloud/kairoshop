@@ -10,8 +10,10 @@ export async function GET(_req, { params }) {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
   }
 
+  const cleanCode = decodeURIComponent(params.code).trim().toUpperCase();
+
   const orderCode = await prisma.orderCode.findUnique({
-    where: { code: params.code },
+    where: { code: cleanCode },
     include: { user: true },
   });
 

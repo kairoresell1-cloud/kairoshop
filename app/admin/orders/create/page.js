@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AdminPageShell from "@/components/AdminPageShell";
+import CustomerPicker from "@/components/CustomerPicker";
 
 export default function CreateOrderPage() {
   const router = useRouter();
@@ -32,9 +33,10 @@ export default function CreateOrderPage() {
   async function handleLookupCode(e) {
     e.preventDefault();
     setCodeError("");
-    const res = await fetch(`/api/orders/lookup/${code.trim().toUpperCase()}`);
+    const cleanCode = code.trim().toUpperCase().replace(/\s+/g, "");
+    const res = await fetch(`/api/orders/lookup/${encodeURIComponent(cleanCode)}`);
     if (!res.ok) {
-      setCodeError("Codice non trovato.");
+      setCodeError("Codice non trovato. Verifica che sia stato generato dopo l'ultimo aggiornamento del sito.");
       return;
     }
     const data = await res.json();
@@ -151,7 +153,11 @@ export default function CreateOrderPage() {
 
         <div className="glass p-5 space-y-3">
           <h3 className="text-sm font-medium mb-2">Destinatario</h3>
-          <input placeholder="Email Google cliente (opzionale, per collegare il profilo)" value={customer.userEmail} onChange={(e) => setCustomer({ ...customer, userEmail: e.target.value })} className="input text-xs" />
+          <p className="text-[10px] text-white/40 mb-1">Cliente (opzionale, per collegare il profilo)</p>
+          <CustomerPicker
+            value={customer.userEmail}
+            onChange={(email) => setCustomer({ ...customer, userEmail: email })}
+          />
           <div className="grid grid-cols-2 gap-2">
             <input placeholder="Nome" value={customer.customerName} onChange={(e) => setCustomer({ ...customer, customerName: e.target.value })} className="input text-xs" />
             <input placeholder="Cognome" value={customer.customerSurname} onChange={(e) => setCustomer({ ...customer, customerSurname: e.target.value })} className="input text-xs" />
