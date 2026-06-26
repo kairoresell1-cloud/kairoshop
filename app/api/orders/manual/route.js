@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { hasPermission } from "@/lib/permissions";
 import { nanoid } from "nanoid";
+import { runValidations, validatePrice, validateQuantity } from "@/lib/validation";
 
 function generateOrderCode() {
   const part = () => nanoid(4).toUpperCase().replace(/[^A-Z0-9]/g, "X");
@@ -36,6 +37,21 @@ export async function POST(req) {
   if (!items || items.length === 0) {
     return NextResponse.json({ error: "Nessun prodotto nell'ordine" }, { status: 400 });
   }
+
+  for (const item of items) {
+    const error = runValidations([
+      validateQuantity(item.quantity, "quantità articolo"),
+      validatePrice(item.unitPrice, "prezzo unitario articolo"),
+    ]);
+    if (error) return NextResponse.json({ error }, { status: 400 });
+  }
+
+  if (body.total != null) {
+    const totalError = validatePrice(body.total, "totale ordine");
+    if (totalError) return NextResponse.json({ error: totalError }, { status: 400 });
+  }
+  const shippingError = validatePrice(shippingFee, "spedizione");
+  if (shippingError) return NextResponse.json({ error: shippingError }, { status: 400 });
 
   const subtotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
   const total = body.total != null ? parseFloat(body.total) : subtotal + shippingFee;

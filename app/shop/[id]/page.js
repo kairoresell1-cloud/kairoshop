@@ -127,7 +127,7 @@ export default function ProductDetailPage() {
           <button
             onClick={handleAddToCart}
             disabled={maxStock === 0}
-            className="w-full mt-8 bg-kairo-sakura hover:bg-kairo-sakuraDeep text-kairo-black font-medium py-3.5 rounded-full transition-all disabled:opacity-40"
+            className="w-full mt-8 btn-primary py-3.5 disabled:opacity-40"
           >
             {maxStock === 0 ? "Esaurito" : added ? "Aggiunto ✓" : "Aggiungi al carrello"}
           </button>

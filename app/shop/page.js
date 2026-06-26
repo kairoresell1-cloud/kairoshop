@@ -40,7 +40,7 @@ function ShopContent() {
     <main className="min-h-screen px-6 md:px-10 py-10 max-w-6xl mx-auto">
       <div className="mb-10">
         <p className="text-[10px] text-kairo-sakura uppercase tracking-[0.3em] mb-1">Collezione</p>
-        <h1 className="text-3xl md:text-4xl font-light tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-light tracking-tight gradient-text">
           {activeCategoryName || "Kairo Shop"}
         </h1>
       </div>

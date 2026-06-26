@@ -29,6 +29,30 @@ html, body {
   text-shadow: 0 0 24px rgba(255, 183, 197, 0.5);
 }
 
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #ffb7c5 60%, #ff8fa3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass:hover {
+  border-color: rgba(255, 183, 197, 0.3);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ffb7c5 0%, #ff8fa3 100%);
+  color: #0f0f0f;
+  font-weight: 500;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(255, 183, 197, 0.45);
+  transform: translateY(-1px);
+}
+
 .sakura-border {
   border: 1px solid rgba(255, 183, 197, 0.25);
 }

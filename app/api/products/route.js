@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { hasPermission } from "@/lib/permissions";
+import { runValidations, validatePrice, validateQuantity, validateRequiredString } from "@/lib/validation";
 
 export async function GET() {
   const products = await prisma.product.findMany({
@@ -19,6 +20,16 @@ export async function POST(req) {
   }
 
   const body = await req.json();
+
+  const validationError = runValidations([
+    validateRequiredString(body.title, "titolo"),
+    validateRequiredString(body.description, "descrizione"),
+    validatePrice(body.basePrice, "prezzo base"),
+    validateQuantity(body.stock, "stock"),
+  ]);
+  if (validationError) {
+    return NextResponse.json({ error: validationError }, { status: 400 });
+  }
 
   const product = await prisma.product.create({
     data: {
