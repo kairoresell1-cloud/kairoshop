@@ -37,6 +37,7 @@ export const config = {
     "/shop/:path*",
     "/cart/:path*",
     "/checkout/:path*",
+    "/profile/:path*",
     "/dashboard/:path*",
     "/admin/:path*",
     "/api/auth/:path*",

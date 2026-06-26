@@ -37,6 +37,7 @@ export async function PUT(req, { params }) {
       images: body.images || [],
       basePrice: body.basePrice,
       stock: body.stock,
+      isDigital: !!body.isDigital,
       tags: body.tags || [],
       badge: body.badge || null,
       categoryId: body.categoryId,

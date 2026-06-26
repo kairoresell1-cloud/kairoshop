@@ -53,7 +53,7 @@ export default function ProductsAdminPage() {
                     <div className="min-w-0">
                       <p className="text-sm font-medium truncate">{p.title}</p>
                       <p className="text-xs text-white/40">
-                        {p.category?.name} · Stock {p.stock} · €{p.basePrice.toFixed(2)}
+                        {p.category?.name} · Stock {p.stock} · €{p.basePrice.toFixed(2)} {p.isDigital && "· 📦 Digitale"}
                       </p>
                     </div>
                   </div>
@@ -94,6 +94,7 @@ function ProductForm({ product, categories, saving, setSaving, onCancel, onSaved
     images: product?.images?.join(", ") || "",
     basePrice: product?.basePrice ?? "",
     stock: product?.stock ?? 0,
+    isDigital: product?.isDigital ?? false,
     tags: product?.tags?.join(", ") || "",
     badge: product?.badge || "",
     categoryId: product?.categoryId || categories[0]?.id || "",
@@ -126,6 +127,7 @@ function ProductForm({ product, categories, saving, setSaving, onCancel, onSaved
       ...form,
       basePrice: parseFloat(form.basePrice),
       stock: parseInt(form.stock, 10),
+      isDigital: form.isDigital,
       images: form.images.split(",").map((s) => s.trim()).filter(Boolean),
       tags: form.tags.split(",").map((s) => s.trim()).filter(Boolean),
       badge: form.badge || null,
@@ -167,6 +169,16 @@ function ProductForm({ product, categories, saving, setSaving, onCancel, onSaved
           <input required type="number" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} className="input" />
         </Field>
       </div>
+
+      <label className="flex items-center gap-2 text-xs text-white/60 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={form.isDigital}
+          onChange={(e) => setForm({ ...form, isDigital: e.target.checked })}
+          className="accent-kairo-sakura"
+        />
+        Prodotto digitale (nessuna spedizione fisica)
+      </label>
 
       <Field label="Categoria">
         <div className="flex gap-2">

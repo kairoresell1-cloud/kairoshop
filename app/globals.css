@@ -5,56 +5,127 @@
 @tailwind utilities;
 
 html, body {
-  background: #0f0f0f;
+  background: #08080a;
   background-image:
-    radial-gradient(circle at 20% 0%, rgba(255, 183, 197, 0.06), transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(255, 183, 197, 0.05), transparent 45%),
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: auto, auto, 48px 48px, 48px 48px;
+    radial-gradient(circle at 15% 0%, rgba(255, 143, 163, 0.16), transparent 45%),
+    radial-gradient(circle at 100% 20%, rgba(255, 183, 197, 0.12), transparent 50%),
+    radial-gradient(circle at 50% 100%, rgba(255, 105, 135, 0.08), transparent 55%),
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: auto, auto, auto, 44px 44px, 44px 44px;
   background-attachment: fixed;
   color: #ffffff;
   font-family: "Raleway", sans-serif;
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 183, 197, 0.15);
-  backdrop-filter: blur(16px);
-  border-radius: 1.25rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.glow-text {
-  text-shadow: 0 0 24px rgba(255, 183, 197, 0.5);
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #ffffff 0%, #ffb7c5 60%, #ff8fa3 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  background: linear-gradient(160deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015));
+  border: 1px solid rgba(255, 183, 197, 0.16);
+  backdrop-filter: blur(20px) saturate(140%);
+  border-radius: 1.5rem;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.25s ease;
+  position: relative;
 }
 
 .glass:hover {
-  border-color: rgba(255, 183, 197, 0.3);
+  border-color: rgba(255, 183, 197, 0.4);
+  box-shadow: 0 8px 40px -10px rgba(255, 143, 163, 0.25);
+}
+
+.glow-text {
+  text-shadow: 0 0 30px rgba(255, 183, 197, 0.55), 0 0 60px rgba(255, 143, 163, 0.25);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #ffd9e1 35%, #ffb7c5 65%, #ff7d9a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 200%;
+  animation: shimmer 6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #ffb7c5 0%, #ff8fa3 100%);
+  background: linear-gradient(135deg, #ffd9e1 0%, #ffb7c5 45%, #ff7d9a 100%);
   color: #0f0f0f;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 999px;
-  transition: all 0.3s ease;
+  transition: all 0.35s ease;
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 30px rgba(255, 183, 197, 0.45);
-  transform: translateY(-1px);
+  box-shadow: 0 0 40px rgba(255, 143, 163, 0.55);
+  transform: translateY(-2px) scale(1.01);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 183, 197, 0.15);
+  border-radius: 9999px;
+  color: #ffb7c5;
+  transition: all 0.25s;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 183, 197, 0.12);
+  border-color: rgba(255, 183, 197, 0.35);
+}
+
+.accent-bar {
+  background: linear-gradient(180deg, #ffb7c5, transparent);
+}
+
+.glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.35;
+  pointer-events: none;
+  animation: float 14s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -30px) scale(1.15); }
+}
+
+.card-glow-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.card-glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,183,197,0.55), transparent 40%, transparent 60%, rgba(255,143,163,0.35));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: -1;
+}
+
+.card-glow-border:hover::before {
+  opacity: 1;
 }
 
 .sakura-border {
   border: 1px solid rgba(255, 183, 197, 0.25);
+}
+
+.status-pill {
+  background: rgba(255, 183, 197, 0.12);
+  border: 1px solid rgba(255, 183, 197, 0.25);
+  color: #ffb7c5;
 }
 
 /* Petali sakura discreti in background */
@@ -78,52 +149,21 @@ html, body {
 
 .input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 183, 197, 0.15);
-  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 183, 197, 0.18);
+  border-radius: 0.85rem;
   padding: 0.65rem 0.9rem;
   font-size: 0.875rem;
   color: white;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
 
 .input:focus {
-  border-color: rgba(255, 183, 197, 0.5);
+  border-color: rgba(255, 183, 197, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 183, 197, 0.1);
 }
 
 .input::placeholder {
   color: rgba(255, 255, 255, 0.25);
-}
-
-.input {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.75rem;
-  padding: 0.6rem 0.9rem;
-  color: white;
-  font-size: 0.875rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  border-color: rgba(255, 183, 197, 0.5);
-}
-
-.input::placeholder {
-  color: rgba(255, 255, 255, 0.25);
-}
-
-.btn-ghost {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 183, 197, 0.15);
-  border-radius: 9999px;
-  color: #ffb7c5;
-  transition: all 0.2s;
-}
-
-.btn-ghost:hover {
-  background: rgba(255, 183, 197, 0.12);
 }

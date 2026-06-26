@@ -49,7 +49,7 @@ export default function ProductDetailPage() {
 
       <div className="grid md:grid-cols-2 gap-10">
         <div>
-          <div className="glass h-80 md:h-96 overflow-hidden mb-3">
+          <div className="glass card-glow-border h-80 md:h-96 overflow-hidden mb-3">
             {product.images?.[activeImage] && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={product.images[activeImage]} alt={product.title} className="w-full h-full object-cover" />

@@ -80,6 +80,8 @@ export default function Sidebar() {
           </div>
         )}
 
+        <NavLink href="/profile" label="Il mio profilo" active={isActive("/profile")} />
+
         {isStaff && (
           <>
             <p className="text-[10px] text-white/30 uppercase tracking-[0.25em] px-3 mt-6 mb-2">

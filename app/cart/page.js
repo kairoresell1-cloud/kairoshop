@@ -4,7 +4,7 @@ import { useCart } from "@/lib/cart-context";
 import Link from "next/link";
 
 export default function CartPage() {
-  const { items, removeFromCart, updateQuantity, priceForItem, subtotal, shippingFee, total } = useCart();
+  const { items, removeFromCart, updateQuantity, priceForItem, subtotal, shippingFee, isAllDigital, total } = useCart();
 
   return (
     <main className="min-h-screen px-6 py-10 max-w-3xl mx-auto">
@@ -47,7 +47,7 @@ export default function CartPage() {
             </div>
             <div className="flex justify-between text-white/70">
               <span>Spedizione</span>
-              <span>€{shippingFee.toFixed(2)}</span>
+              <span>{isAllDigital ? "Gratuita (prodotti digitali)" : `€${shippingFee.toFixed(2)}`}</span>
             </div>
             <div className="flex justify-between font-bold text-lg pt-2 border-t border-white/10">
               <span>Totale</span>

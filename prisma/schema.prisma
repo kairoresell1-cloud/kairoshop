@@ -106,6 +106,7 @@ model Product {
   images      String[] // gallery URLs
   basePrice   Float
   stock       Int      @default(0)
+  isDigital   Boolean  @default(false)
   tags        String[]
   badge       String?  // New, Bestseller, Offerta, Premium, Limited
   category    Category @relation(fields: [categoryId], references: [id])

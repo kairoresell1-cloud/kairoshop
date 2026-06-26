@@ -1,5 +1,6 @@
 import "./globals.css";
 import SakuraPetals from "@/components/SakuraPetals";
+import AmbientGlow from "@/components/AmbientGlow";
 import Providers from "@/components/Providers";
 import AppShell from "@/components/AppShell";
 
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="it">
       <body className="relative min-h-screen bg-kairo-black">
+        <AmbientGlow />
         <SakuraPetals />
         <Providers>
           <div className="relative z-10">

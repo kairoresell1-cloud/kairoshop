@@ -76,7 +76,7 @@ function ProductGrid({ products }) {
         <Link
           key={p.id}
           href={`/shop/${p.id}`}
-          className="glass overflow-hidden flex flex-col group cursor-pointer"
+          className="glass card-glow-border overflow-hidden flex flex-col group cursor-pointer"
         >
           <div className="h-44 bg-white/5 overflow-hidden relative">
             {p.images?.[0] && (

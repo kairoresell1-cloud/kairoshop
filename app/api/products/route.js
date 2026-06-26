@@ -38,6 +38,7 @@ export async function POST(req) {
       images: body.images || [],
       basePrice: body.basePrice,
       stock: body.stock || 0,
+      isDigital: !!body.isDigital,
       tags: body.tags || [],
       badge: body.badge || null,
       categoryId: body.categoryId,
