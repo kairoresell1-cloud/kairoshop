@@ -42,14 +42,14 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <main className="min-h-screen px-6 md:px-10 py-10 max-w-5xl">
+    <main className="min-h-screen px-4 md:px-10 py-6 md:py-10 max-w-5xl">
       <button onClick={() => router.back()} className="text-xs text-white/40 hover:text-white/70 mb-6">
         ← Torna al catalogo
       </button>
 
       <div className="grid md:grid-cols-2 gap-10">
         <div>
-          <div className="glass card-glow-border h-80 md:h-96 overflow-hidden mb-3">
+          <div className="glass card-glow-border h-64 md:h-96 overflow-hidden mb-3">
             {product.images?.[activeImage] && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={product.images[activeImage]} alt={product.title} className="w-full h-full object-cover" />
@@ -79,7 +79,7 @@ export default function ProductDetailPage() {
               {product.badge}
             </span>
           )}
-          <h1 className="text-2xl md:text-3xl font-light mt-3">{product.title}</h1>
+          <h1 className="text-xl md:text-3xl font-light mt-3">{product.title}</h1>
           <p className="text-white/50 text-sm mt-4 leading-relaxed">{product.description}</p>
 
           <p className="text-kairo-sakura text-2xl font-semibold mt-6">€{product.basePrice.toFixed(2)}</p>

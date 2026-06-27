@@ -7,7 +7,7 @@ export default function CartPage() {
   const { items, removeFromCart, updateQuantity, priceForItem, subtotal, shippingFee, isAllDigital, total } = useCart();
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-3xl">
+    <main className="min-h-screen px-4 md:px-6 py-6 md:py-10 max-w-3xl">
       <h1 className="text-3xl font-bold glow-text mb-8">Il tuo carrello</h1>
 
       {items.length === 0 ? (
