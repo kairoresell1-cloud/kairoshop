@@ -16,6 +16,14 @@ html, body {
   background-attachment: fixed;
   color: #ffffff;
   font-family: "Raleway", sans-serif;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+@media (max-width: 767px) {
+  html, body {
+    background-size: auto, auto, auto, 28px 28px, 28px 28px;
+  }
 }
 
 .glass {

@@ -59,7 +59,7 @@ export default function OrdersAdminPage() {
               <Link href={`/admin/orders/${o.id}`} className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-kairo-sakura">{o.code}</p>
                 <p className="text-xs text-white/40">
-                  €{o.total.toFixed(2)} · {new Date(o.createdAt).toLocaleDateString("it-IT")}
+                  €{o.total.toFixed(2)} · {new Date(o.createdAt).toLocaleDateString("it-IT")} {new Date(o.createdAt).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}
                 </p>
               </Link>
               {o.userId ? (

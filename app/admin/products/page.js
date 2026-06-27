@@ -161,7 +161,7 @@ function ProductForm({ product, categories, saving, setSaving, onCancel, onSaved
         <input value={form.images} onChange={(e) => setForm({ ...form, images: e.target.value })} className="input" placeholder="https://..., https://..." />
       </Field>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Prezzo base (€)">
           <input required type="number" step="0.01" value={form.basePrice} onChange={(e) => setForm({ ...form, basePrice: e.target.value })} className="input" />
         </Field>

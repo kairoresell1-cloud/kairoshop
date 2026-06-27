@@ -182,15 +182,15 @@ export default function CreateOrderPage() {
               Seleziona
             </button>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input placeholder="Nome" value={customer.customerName} onChange={(e) => setCustomer({ ...customer, customerName: e.target.value })} className="input text-xs" />
             <input placeholder="Cognome" value={customer.customerSurname} onChange={(e) => setCustomer({ ...customer, customerSurname: e.target.value })} className="input text-xs" />
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <input placeholder="Via" value={customer.customerStreet} onChange={(e) => setCustomer({ ...customer, customerStreet: e.target.value })} className="input text-xs col-span-2" />
             <input placeholder="N°" value={customer.customerStreetNumber} onChange={(e) => setCustomer({ ...customer, customerStreetNumber: e.target.value })} className="input text-xs" />
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input placeholder="Città" value={customer.customerCity} onChange={(e) => setCustomer({ ...customer, customerCity: e.target.value })} className="input text-xs" />
             <input placeholder="CAP" value={customer.customerZip} onChange={(e) => setCustomer({ ...customer, customerZip: e.target.value })} className="input text-xs" />
           </div>
@@ -199,7 +199,7 @@ export default function CreateOrderPage() {
 
         <div className="glass p-5 space-y-3">
           <h3 className="text-sm font-medium mb-2">Spedizione, data e prezzi</h3>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <Field label="Data ordine"><input type="date" value={orderDate} onChange={(e) => setOrderDate(e.target.value)} className="input text-xs" /></Field>
             <Field label="Spedizione (€)"><input type="number" step="0.01" value={shippingFee} onChange={(e) => setShippingFee(e.target.value)} className="input text-xs" /></Field>
             <Field label="Codice tracking"><input value={trackingCode} onChange={(e) => setTrackingCode(e.target.value)} className="input text-xs" /></Field>

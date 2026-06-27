@@ -31,7 +31,7 @@ export default function AdminPageShell({ title, description, requireOwner = fals
   }
 
   return (
-    <main className="min-h-screen px-6 md:px-10 py-10 max-w-5xl mx-auto">
+    <main className="min-h-screen px-6 md:px-10 py-10 max-w-5xl">
       <p className="text-[10px] text-kairo-sakura uppercase tracking-[0.3em] mb-1">Staff</p>
       <h1 className="text-3xl font-light tracking-tight mb-2">{title}</h1>
       {description && <p className="text-white/40 text-sm mb-8">{description}</p>}

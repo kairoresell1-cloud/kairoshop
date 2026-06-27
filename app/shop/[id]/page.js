@@ -42,7 +42,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <main className="min-h-screen px-6 md:px-10 py-10 max-w-5xl mx-auto">
+    <main className="min-h-screen px-6 md:px-10 py-10 max-w-5xl">
       <button onClick={() => router.back()} className="text-xs text-white/40 hover:text-white/70 mb-6">
         ← Torna al catalogo
       </button>

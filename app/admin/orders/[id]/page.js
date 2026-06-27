@@ -73,7 +73,7 @@ export default function OrderDetailPage() {
   }
 
   return (
-    <AdminPageShell title={order.code} description={`Ordine creato il ${new Date(order.createdAt).toLocaleDateString("it-IT")}`}>
+    <AdminPageShell title={order.code} description={`Ordine creato il ${new Date(order.createdAt).toLocaleDateString("it-IT")} alle ${new Date(order.createdAt).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}`}>
       {order.userId && order.user && (
         <Link href={`/admin/customers/${order.userId}`} className="inline-block text-xs text-kairo-sakura hover:underline mb-6">
           👤 {order.user.name || order.user.email} — vai al dossier cliente
@@ -96,7 +96,7 @@ export default function OrderDetailPage() {
           <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="input text-xs">
             {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
           </select>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input placeholder="Corriere" value={form.trackingCarrier} onChange={(e) => setForm({ ...form, trackingCarrier: e.target.value })} className="input text-xs" />
             <input placeholder="Codice tracking" value={form.trackingCode} onChange={(e) => setForm({ ...form, trackingCode: e.target.value })} className="input text-xs" />
           </div>
@@ -104,15 +104,15 @@ export default function OrderDetailPage() {
 
         <div className="glass p-5 space-y-3">
           <h3 className="text-sm font-medium mb-2">Dati destinatario</h3>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input placeholder="Nome" value={form.customerName} onChange={(e) => setForm({ ...form, customerName: e.target.value })} className="input text-xs" />
             <input placeholder="Cognome" value={form.customerSurname} onChange={(e) => setForm({ ...form, customerSurname: e.target.value })} className="input text-xs" />
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <input placeholder="Via" value={form.customerStreet} onChange={(e) => setForm({ ...form, customerStreet: e.target.value })} className="input text-xs col-span-2" />
             <input placeholder="N°" value={form.customerStreetNumber} onChange={(e) => setForm({ ...form, customerStreetNumber: e.target.value })} className="input text-xs" />
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input placeholder="Città" value={form.customerCity} onChange={(e) => setForm({ ...form, customerCity: e.target.value })} className="input text-xs" />
             <input placeholder="CAP" value={form.customerZip} onChange={(e) => setForm({ ...form, customerZip: e.target.value })} className="input text-xs" />
           </div>
@@ -121,7 +121,7 @@ export default function OrderDetailPage() {
 
         <div className="glass p-5 space-y-3">
           <h3 className="text-sm font-medium mb-2">Prezzi (modificabili — sconti confidenziali)</h3>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <Field label="Subtotale">
               <input type="number" step="0.01" value={form.subtotal} onChange={(e) => setForm({ ...form, subtotal: e.target.value })} className="input text-xs" />
             </Field>

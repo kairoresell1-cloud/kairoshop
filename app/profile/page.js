@@ -33,16 +33,20 @@ export default function ProfilePage() {
   }, []);
 
   return (
-    <main className="min-h-screen px-6 md:px-10 py-10 max-w-3xl mx-auto">
+    <main className="min-h-screen px-6 md:px-10 py-10 max-w-3xl">
       <div className="glass card-glow-border p-6 mb-10 flex items-center gap-4">
-        {session?.user?.image && (
+        {session?.user?.image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={session.user.image} alt="" className="w-14 h-14 rounded-full border border-kairo-sakura/30" />
+          <img src={session.user.image} alt="" className="w-14 h-14 rounded-full border border-kairo-sakura/30 flex-shrink-0 object-cover" />
+        ) : (
+          <div className="w-14 h-14 rounded-full border border-kairo-sakura/30 flex-shrink-0 flex items-center justify-center bg-kairo-sakura/10 text-kairo-sakura font-medium">
+            {session?.user?.name?.[0]?.toUpperCase() || "K"}
+          </div>
         )}
-        <div>
+        <div className="min-w-0">
           <p className="text-[10px] text-kairo-sakura uppercase tracking-[0.3em] mb-1">Profilo</p>
-          <h1 className="text-xl font-light gradient-text">{session?.user?.name}</h1>
-          <p className="text-xs text-white/40">{session?.user?.email}</p>
+          <h1 className="text-xl font-light gradient-text truncate">{session?.user?.name}</h1>
+          <p className="text-xs text-white/40 truncate">{session?.user?.email}</p>
         </div>
       </div>
 
@@ -70,7 +74,7 @@ export default function ProfilePage() {
                   <div>
                     <p className="text-sm font-medium text-kairo-sakura">{o.code}</p>
                     <p className="text-xs text-white/40 mt-0.5">
-                      {new Date(o.createdAt).toLocaleDateString("it-IT")} · €{o.total.toFixed(2)}
+                      {new Date(o.createdAt).toLocaleDateString("it-IT")} alle {new Date(o.createdAt).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })} · €{o.total.toFixed(2)}
                     </p>
                   </div>
                   <span className="status-pill text-[11px] px-3 py-1.5 rounded-full">

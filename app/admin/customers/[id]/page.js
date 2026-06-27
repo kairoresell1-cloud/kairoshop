@@ -82,7 +82,7 @@ export default function CustomerDossierPage() {
             {customer.orders.map((o) => (
               <Link key={o.id} href={`/admin/orders/${o.id}`} className="flex justify-between text-xs hover:text-kairo-sakura transition-colors">
                 <span>{o.code}</span>
-                <span>€{o.total.toFixed(2)} · {new Date(o.createdAt).toLocaleDateString("it-IT")}</span>
+                <span>€{o.total.toFixed(2)} · {new Date(o.createdAt).toLocaleDateString("it-IT")} {new Date(o.createdAt).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}</span>
               </Link>
             ))}
           </div>

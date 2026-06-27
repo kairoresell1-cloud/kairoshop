@@ -37,7 +37,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-md mx-auto text-center">
+    <main className="min-h-screen px-6 py-10 max-w-md text-center">
       <h1 className="text-3xl font-bold glow-text mb-8">Checkout</h1>
 
       {!code ? (
